@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Emmanuel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            background: #1e1e2f;
+            padding: 15px 40px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: #00d4ff; }
+        .nav-links a.active { color: #00d4ff; font-weight: bold; }
+
+        /* Page Header */
+        .page-header {
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e1e2f, #3a3a5c);
+            color: white;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .page-header h1 {
+            font-size: 3rem;
+        }
+        .page-header h1 span { color: #00d4ff; }
+        .page-header p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* About Section */
+        .about-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .about-intro {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+        }
+        .about-image img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #00d4ff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .about-text {
+            flex: 2;
+            min-width: 300px;
+        }
+        .about-text h2 {
+            color: #1e1e2f;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+        .about-text p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            background: #fff;
+            padding: 50px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+        .skills-section h2 {
+            text-align: center;
+            color: #1e1e2f;
+            margin-bottom: 30px;
+        }
+
+        .skill-bar {
+            margin-bottom: 20px;
+        }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1e1e2f;
+        }
+        .skill-bar-bg {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #1e1e2f);
+            border-radius: 5px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        /* Experience / Timeline */
+        .experience h2 {
+            text-align: center;
+            color: #1e1e2f;
+            margin-bottom: 40px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #00d4ff;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+        }
+        .timeline-item:nth-child(odd) { left: 0; }
+        .timeline-item:nth-child(even) { left: 50%; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            width: 15px;
+            height: 15px;
+            background: #00d4ff;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-item:nth-child(odd)::before { right: -8px; }
+        .timeline-item:nth-child(even)::before { left: -8px; }
+
+        .timeline-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .timeline-content h3 {
+            color: #1e1e2f;
+            margin-bottom: 5px;
+        }
+        .timeline-content .year {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .timeline-content p {
+            margin-top: 10px;
+            color: #555;
+        }
+
+        /* Hobbies */
+        .hobbies {
+            margin-top: 60px;
+            text-align: center;
+        }
+        .hobbies h2 {
+            color: #1e1e2f;
+            margin-bottom: 30px;
+        }
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .hobby-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .hobby-card:hover {
+            transform: translateY(-5px);
+        }
+        .hobby-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .hobby-card h4 {
+            color: #1e1e2f;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 60px 40px;
+        }
+        .cta h2 {
+            color: #1e1e2f;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #00d4ff;
+            color: #1e1e2f;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #1e1e2f; color: #fff; }
+
+        /* Footer */
+        footer {
+            background: #1e1e2f;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .timeline::before { left: 20px; }
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 50px;
+            }
+            .timeline-item::before { left: 12px !important; }
+            .page-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Emmanuel</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div>
+            <h1>About <span>Me</span></h1>
+            <p>Get to know who I am and what I do</p>
+        </div>
+    </section>
+
+    <!-- About Intro -->
+    <div class="about-container">
+        <div class="about-intro">
+            <div class="about-image">
+                <img src="https://via.placeholder.com/250x250/00d4ff/1e1e2f?text=Emmanuel" alt="Emmanuel">
+            </div>
+            <div class="about-text">
+                <h2>Hello! I'm Emmanuel</h2>
+                <p>
+                    I'm a passionate web developer and tech enthusiast who loves 
+                    building beautiful, functional, and user-friendly websites. 
+                    With a keen eye for design and a love for clean code, I bring 
+                    ideas to life through technology.
+                </p>
+                <p>
+                    When I'm not coding, you'll find me exploring new technologies, 
+                    reading tech blogs, or working on personal projects. I believe 
+                    in continuous learning and always pushing the boundaries of 
+                    what's possible.
+                </p>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="skills-section">
+            <h2>My Skills</h2>
+
+            <div class="skill-bar">
+                <div class="skill-info"><span>HTML & CSS</span><span>90%</span></div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" data-skill="90"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <div class="skill-info"><span>JavaScript</span><span>85%</span></div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" data-skill="85"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <div class="skill-info"><span>React</span><span>75%</span></div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" data-skill="75"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <div class="skill-info"><span>Node.js</span><span>70%</span></div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" data-skill="70"></div>
+                </div>
+            </div>
+
+            <div class="skill-bar">
+                <div class="skill-info"><span>UI/UX Design</span><span>80%</span></div>
+                <div class="skill-bar-bg">
+                    <div class="skill-bar-fill" data-skill="80"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience / Timeline -->
+        <div class="experience">
+            <h2>My Journey</h2>
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="year">2024 - Present</span>
+                        <h3>Senior Web Developer</h3>
+                        <p>Leading frontend development and creating modern web applications.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="year">2022 - 2024</span>
+                        <h3>Frontend Developer</h3>
+                        <p>Built responsive websites and improved user experiences.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="year">2020 - 2022</span>
+                        <h3>Junior Developer</h3>
+                        <p>Started my career learning the ropes of web development.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <span class="year">2016 - 2020</span>
+                        <h3>Computer Science Degree</h3>
+                        <p>Studied the fundamentals of programming and software engineering.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Hobbies -->
+        <div class="hobbies">
+            <h2>My Hobbies</h2>
+            <div class="hobby-grid">
+                <div class="hobby-card">
+                    <div class="icon">💻</div>
+                    <h4>Coding</h4>
+                </div>
+                <div class="hobby-card">
+                    <div class="icon">📚</div>
+                    <h4>Reading</h4>
+                </div>
+                <div class="hobby-card">
+                    <div class="icon">🎮</div>
+                    <h4>Gaming</h4>
+                </div>
+                <div class="hobby-card">
+                    <div class="icon">🎵</div>
+                    <h4>Music</h4>
+                </div>
+                <div class="hobby-card">
+                    <div class="icon">✈️</div>
+                    <h4>Traveling</h4>
+                </div>
+                <div class="hobby-card">
+                    <div class="icon">📸</div>
+                    <h4>Photography</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta">
+            <h2>Want to work with me?</h2>
+            <a href="contact.html" class="btn">Let's Connect</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Emmanuel. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Animate skill bars when they come into view
+        const skillBars = document.querySelectorAll('.skill-bar-fill');
+
+        const animateSkills = () => {
+            skillBars.forEach(bar => {
+                const rect = bar.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    const skill = bar.getAttribute('data-skill');
+                    bar.style.width = skill + '%';
+                }
+            });
+        };
+
+        window.addEventListener('scroll', animateSkills);
+        // Trigger once on load
+        window.addEventListener('load', animateSkills);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', e => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
