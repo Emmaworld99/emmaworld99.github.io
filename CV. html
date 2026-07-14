@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - Emmanuel Ita Emmanuel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Me</a>
+      <a href="cv.html">CV</a>
+    </nav>
+  </header>
+
+  <main class="cv-container">
+    <div class="cv-header">
+      <h1>EMMANUEL ITA EMMANUEL</h1>
+      <p>Lagos, Nigeria</p>
+      <p>Phone: +234 810 291 5338 | Email: emmyofficial157@gmail.com</p>
+      <p>Portfolio: <a href="https://emmaworld99.github.io" target="_blank">emmaworld99.github.io</a></p>
+    </div>
+
+    <section>
+      <h2>OBJECTIVE</h2>
+      <p>Dedicated and diligent secondary school graduate seeking an entry-level position to gain practical work experience. A quick learner, responsible, and eager to contribute to a team while awaiting university admission. Currently learning website development.</p>
+    </section>
+
+    <section>
+      <h2>PERSONAL DETAILS</h2>
+      <ul>
+        <li><b>Date of Birth:</b> 07/04/2008</li>
+        <li><b>Gender:</b> Male</li>
+        <li><b>Nationality:</b> Nigerian</li>
+        <li><b>State of Origin:</b> Akwa Ibom State</li>
+        <li><b>Marital Status:</b> Single</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>EDUCATION</h2>
+      <h3>Secondary School Certificate</h3>
+      <p><b>Wise Gate International School, Lagos</b><br>
+      Graduated: 2026</p>
+      <ul>
+        <li><b>JAMB Score:</b> 234</li>
+        <li>Awaiting WAEC / University Admission</li>
+        <li><b>Best Subjects:</b> English Language, Mathematics, Literature, and Marketing</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>SKILLS</h2>
+      <ul>
+        <li>Good communication and interpersonal skills</li>
+        <li>Basic computer operation: Microsoft Word, Excel, Internet</li>
+        <li>Customer service and sales</li>
+        <li>Teamwork and problem-solving</li>
+        <li>Fast learner and adaptable</li>
+        <li><b>Currently learning Website Development:</b> HTML, CSS, and GitHub</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>PROJECTS</h2>
+      <h3>Personal Portfolio Website</h3>
+      <p><a href="https://emmaworld99.github.io" target="_blank">https://emmaworld99.github.io</a></p>
+      <ul>
+        <li>Designed and built a responsive personal website using HTML & CSS</li>
+        <li>Hosted on GitHub Pages to showcase skills and projects</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>WORK EXPERIENCE</h2>
+      <p><b>Entry Level / Fresher</b></p>
+      <p>Open to roles in: Sales, Customer Service, Receptionist, Data Entry, Shop Attendant</p>
+      <ul>
+        <li>Eager to learn and contribute in a professional work
