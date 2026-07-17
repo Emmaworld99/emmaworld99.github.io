@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>How the Brain Makes Speech</title>
+<style>
+  :root{
+    --ink:#eef3f2;
+    --bg-deep:#07161a;
+    --bg-mid:#0d2226;
+    --signal:#4fd8c4;
+    --signal-warm:#f2b34d;
+    --dim:#5c7c7c;
+    --line:#173238;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; height:100%;
+    background:var(--bg-deep);
+    font-family:'Iowan Old Style','Georgia',serif;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .stage{
+    position:relative;
+    width:390px; height:390px;
+    background:
+      radial-gradient(circle at 30% 20%, var(--bg-mid), var(--bg-deep) 70%);
+    border-radius:18px;
+    box-shadow:0 0 0 1px var(--line), 0 30px 60px -20px rgba(0,0,0,.7);
+    overflow:hidden;
+  }
+  .eyebrow{
+    position:absolute; top:16px; left:20px;
+    font-family:'Courier New',monospace;
+    letter-spacing:.18em;
+    font-size:10px;
+    color:var(--dim);
+    text-transform:uppercase;
+  }
+  .eyebrow b{color:var(--signal);}
+
+  svg{position:absolute; top:70px; left:0; width:100%; }
+
+  .region{
+    fill:none;
+    stroke:#2b4a4f;
+    stroke-width:1.4;
+    opacity:.55;
+  }
+  .label{
+    font-family:'Courier New',monospace;
+    font-size:9.5px;
+    fill:var(--dim);
+    letter-spacing:.04em;
+    opacity:0;
+    transition:opacity .4s ease;
+  }
+  .label.show{opacity:1;}
+
+  .zone{
+    fill:var(--signal);
+    opacity:0;
+    transition:opacity .5s ease, filter .5s ease;
+    filter:drop-shadow(0 0 0px var(--signal));
+  }
+  .zone.active{
+    opacity:.85;
+    filter:drop-shadow(0 0 10px var(--signal));
+  }
+  .zone.warm.active{
+    fill:var(--signal-warm);
+    filter:drop-shadow(0 0 10px var(--signal-warm));
+  }
+
+  .path{
+    fill:none;
+    stroke:var(--signal);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-dasharray:240;
+    stroke-dashoffset:240;
+  }
+  .path.draw{
+    transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);
+    stroke-dashoffset:0;
+  }
+
+  .caption-wrap{
+    position:absolute; bottom:0; left:0; right:0;
+    padding:16px 22px 20px;
+    background:linear-gradient(to top, rgba(4,12,14,.95), rgba(4,12,14,0));
+  }
+  .caption{
+    font-size:15px;
+    line-height:1.4;
+    color:var(--ink);
+    min-height:44px;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .caption.show{opacity:1; transform:translateY(0);}
+
+  .progress{
+    position:absolute; top:0; left:0; height:2px;
+    background:var(--signal);
+    width:0%;
+  }
+
+  .replay{
+    position:absolute; top:14px; right:16px;
+    font-family:'Courier New',monospace;
+    font-size:9.5px;
+    letter-spacing:.1em;
+    color:var(--dim);
+    background:none; border:1px solid var(--line);
+    padding:4px 8px; border-radius:20px;
+    cursor:pointer;
+    text-transform:uppercase;
+  }
+  .replay:hover{color:var(--signal); border-color:var(--signal);}
+
+  .credit{
+    position:absolute; bottom:2px; right:8px;
+    font-family:'Courier New',monospace;
+    font-size:7px;
+    color:var(--dim);
+    opacity:.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="progress" id="progress"></div>
+  <div class="eyebrow">FIG. 01 — <b>SPEECH PATHWAY</b></div>
+  <button class="replay" id="replay">▶ Replay</button>
+
+  <svg viewBox="0 0 390 240" preserveAspectRatio="xMidYMid meet">
+    <!-- simplified lateral brain outline -->
+    <path class="region" d="M60,140 C40,90 80,40 150,30 C230,18 300,40 320,90
+                             C335,125 320,160 290,180 C300,200 280,215 255,210
+                             C245,225 220,225 210,212 C185,222 150,218 140,200
+                             C110,205 85,190 75,168 C55,168 50,150 60,140 Z"/>
+
+    <!-- Wernicke's area (temporal/parietal junction) -->
+    <ellipse class="zone" id="wernicke" cx="255" cy="150" rx="26" ry="20"/>
+    <text class="label" id="label-wernicke" x="230" y="188">WERNICKE'S — meaning</text>
+
+    <!-- Broca's area (frontal) -->
+    <ellipse class="zone" id="broca" cx="140" cy="95" rx="24" ry="19"/>
+    <text class="label" id="label-broca" x="88" y="70">BROCA'S — sentence structure</text>
+
+    <!-- Motor cortex strip -->
+    <ellipse class="zone warm" id="motor" cx="175" cy="45" rx="22" ry="14"/>
+    <text class="label" id="label-motor" x="150" y="22">MOTOR CORTEX — mouth &amp; tongue</text>
+
+    <!-- signal paths -->
+    <path class="path" id="path1" d="M255,150 C220,130 175,110 140,95"/>
+    <path class="path" id="path2" d="M140,95 C150,75 160,58 175,45"/>
+  </svg>
+
+  <div class="caption-wrap">
+    <div class="caption" id="caption"></div>
+  </div>
+  <div class="credit">educational · not medical advice</div>
+</div>
+
+<script>
+const steps = [
+  { t:0,    dur:2600, text:"A word starts as meaning, in Wernicke's area.",
+    show:['wernicke','label-wernicke'] },
+  { t:2600, dur:2600, text:"It travels forward to Broca's area, which builds it into a sentence.",
+    show:['broca','label-broca'], draw:'path1' },
+  { t:5200, dur:2600, text:"The motor cortex then signals the mouth, tongue, and vocal cords to move.",
+    show:['motor','label-motor'], draw:'path2' },
+  { t:7800, dur:2200, text:"Three regions, working in sequence, turn a thought into speech.",
+    show:[] },
+];
+const totalDur = 10000;
+
+function reset(){
+  document.querySelectorAll('.zone').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.label').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.path').forEach(el=>el.classList.remove('draw'));
+  document.getElementById('caption').classList.remove('show');
+  document.getElementById('progress').style.width='0%';
+}
+
+let timers = [];
+function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; }
+
+function playSequence(){
+  clearTimers();
+  reset();
+  const caption = document.getElementById('caption');
+  const progress = document.getElementById('progress');
+
+  steps.forEach(step=>{
+    timers.push(setTimeout(()=>{
+      caption.classList.remove('show');
+      void caption.offsetWidth;
+      caption.textContent = step.text;
+      caption.classList.add('show');
+      step.show.forEach(id=>document.getElementById(id).classList.add('active','show'));
+      if(step.draw) document.getElementById(step.draw).classList.add('draw');
+    }, step.t));
+  });
+
+  const start = performance.now();
+  function tick(now){
+    const pct = Math.min(100, ((now-start)/totalDur)*100);
+    progress.style.width = pct+'%';
+    if(pct<100) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // narration
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const fullText = steps.map(s=>s.text).join(' ');
+    const utter = new SpeechSynthesisUtterance(fullText);
+    utter.rate = 1.02;
+    utter.pitch = 1.0;
+    speechSynthesis.speak(utter);
+  }
+}
+
+document.getElementById('replay').addEventListener('click', playSequence);
+window.addEventListener('load', ()=>setTimeout(playSequence, 300));
+</script>
+
+</body>
+</html>
+
